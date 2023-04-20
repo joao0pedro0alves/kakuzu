@@ -1,0 +1,7 @@
+http/
+node_modules/
+public/
+
+*.yml
+package*.json
+tsconfig*.json

@@ -15,5 +15,5 @@ RUN npm install
 
 COPY dist dist
 
-EXPOSE 3333
+EXPOSE 3000
 CMD ["npm", "run", "serve"]

@@ -1,3 +1,2 @@
-# dist
-.dockerignore
 node_modules
+.dockerignore

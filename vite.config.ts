@@ -6,27 +6,23 @@ import packageJson from './package.json'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [
-        react(),
-        VitePWA({
-            registerType: 'autoUpdate',
-            includeAssets: [
-                'favicon.ico',
-                'apple-touch-icon.png',
-                'masked-icon.svg',
-            ],
-            manifest,
-        }),
-    ],
-    server: {
-        watch: {
-            usePolling: true,
-        },
-        strictPort: true,
-        host: '0.0.0.0', // needed for the Docker Container port mapping to work
-        port: 3333, // you can replace this port with any port
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+      manifest,
+    }),
+  ],
+  server: {
+    watch: {
+      usePolling: true,
     },
-    define: {
-        'import.meta.env.PACKAGE_VERSION': JSON.stringify(packageJson.version)
-    }
+    strictPort: true,
+    host: '0.0.0.0', // needed for the Docker Container port mapping to work
+    port: 3000, // you can replace this port with any port
+  },
+  define: {
+    'import.meta.env.PACKAGE_VERSION': JSON.stringify(packageJson.version),
+  },
 })
