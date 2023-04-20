@@ -1,19 +1,18 @@
-import { useState } from 'react'
-import { Navbar } from './components/Navbar'
+import { Sidebar } from './components/Sidebar'
 
 export default function App() {
-  const [darkMode, setDarkMode] = useState(true)
-
-  function toggleDarkMode() {
-    setDarkMode((prevDarkMode) => !prevDarkMode)
-  }
-
   return (
-    <main className='container max-w-lg mx-auto mt-4'>
-      <Navbar 
-        darkMode={darkMode}
-        onToggleDarkMode={toggleDarkMode}
-      />
+    <main className="container min-h-[90%] flex gap-4">
+      <Sidebar />
+
+      <section 
+        className='flex-[4] bg-white p-4 rounded shadow-sm'
+      >
+        <h1>
+          Home
+        </h1>
+        {/* ROUTES */}
+      </section>
     </main>
   )
 }

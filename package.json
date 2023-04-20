@@ -12,10 +12,12 @@
     "serve": "serve -s dist -p 3000"
   },
   "dependencies": {
+    "@radix-ui/react-avatar": "^1.0.2",
     "clsx": "^1.2.1",
     "phosphor-react": "^1.4.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.8.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",
