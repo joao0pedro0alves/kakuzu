@@ -1,3 +1,4 @@
+import { Calculator } from '@/components/layout/Calculator'
 import { TransactionList } from '@/components/layout/TransactionList'
 import { transactions } from '@/sample/transactions'
 
@@ -19,15 +20,20 @@ export function Transactions() {
   )
 
   return (
-    <div className="flex gap-4">
-      <TransactionList 
-        data={lastTransactions} 
-        title="Last transactions" 
-      />
-      <TransactionList
-        data={scheduledTransactions}
-        title="Scheduled transactions"
-      />
+    <div className='flex h-full flex-col'>
+
+      <div className="flex-1 flex gap-4">
+        <TransactionList 
+          data={lastTransactions} 
+          title="Last transactions" 
+        />
+        <TransactionList
+          data={scheduledTransactions}
+          title="Scheduled transactions"
+        />
+      </div>
+
+      <Calculator />
     </div>
   )
 }

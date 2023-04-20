@@ -17,8 +17,8 @@ export function Transaction({ data }: TransactionProps) {
       className={clsx(
         'grid grid-cols-12 gap-4 items-center p-4 rounded-md shadow-md',
         isExpense
-          ? 'dark:bg-red-800 dark:border-red-700'
-          : 'dark:bg-green-800 dark:border-green-700'
+          ? 'dark:bg-red-800'
+          : 'dark:bg-green-800'
       )}
     >
       <div className="col-span-1 flex items-center justify-center">
