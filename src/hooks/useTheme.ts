@@ -9,7 +9,7 @@ function findSystemTheme(): Theme {
     : 'light'
 }
 
-export function useTheme(): [theme: Theme, setTheme: React.Dispatch<React.SetStateAction<Theme>>, isDark: boolean] {
+export function useTheme(): [theme: Theme, setTheme: React.Dispatch<React.SetStateAction<Theme>>] {
   const [theme, setTheme] = usePersistedState<Theme>('theme', findSystemTheme())
 
   useEffect(() => {
@@ -24,5 +24,5 @@ export function useTheme(): [theme: Theme, setTheme: React.Dispatch<React.SetSta
     chooseTheme()
   }, [theme])
 
-  return [theme, setTheme, theme === 'dark']
+  return [theme, setTheme]
 }

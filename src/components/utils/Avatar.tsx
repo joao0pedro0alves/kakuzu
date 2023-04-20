@@ -7,7 +7,7 @@ export function Avatar() {
     >
       <UiAvatar.Image
         className="w-full h-full object-cover rounded-[inherit]"
-        src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+        src="https://narutoshippudenblog.files.wordpress.com/2010/07/kakuzu-1.jpg"
         alt="Colm Tuite"
       />
       <UiAvatar.Fallback 
