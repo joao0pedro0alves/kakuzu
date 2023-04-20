@@ -1,5 +1,8 @@
 import { Sidebar } from './components/layout/Sidebar'
 import { Toolbar } from './components/layout/Toolbar'
+import { Transactions } from './pages/Transactions'
+
+import '@/lib/date-fns'
 
 export default function App() {
   return (
@@ -12,10 +15,7 @@ export default function App() {
         <section 
           className='flex-[4] bg-white p-4 rounded shadow-sm dark:bg-gray-800'
         >
-          <h1>
-            Home
-          </h1>
-          {/* ROUTES */}
+          <Transactions />
         </section>
       </div>
     </main>

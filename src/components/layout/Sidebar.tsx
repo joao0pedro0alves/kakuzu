@@ -21,7 +21,6 @@ export function Sidebar() {
         <ul className="flex flex-col gap-2 px-4 my-4">
           <li
             className="w-full rounded data-[active=true]:bg-gray-700 hover:bg-gray-700 transition-colors"
-            data-active="true"
           >
             <a href="#" className="p-4 flex items-center gap-4">
               <GoDashboard fontSize={22} className="text-orange-500" />
@@ -29,14 +28,14 @@ export function Sidebar() {
             </a>
           </li>
 
-          <li className="w-full rounded hover:bg-gray-700 transition-colors">
+          <li className="w-full rounded data-[active=true]:bg-gray-700 hover:bg-gray-700 transition-colors" data-active="true">
             <a href="#" className="p-4 flex items-center gap-4">
               <BiTransfer fontSize={22} className="text-orange-500" />
               <span className="text-sm text-orange-500 font-bold">Transactions</span>
             </a>
           </li>
 
-          <li className="w-full rounded hover:bg-gray-700 transition-colors">
+          <li className="w-full rounded data-[active=true]:bg-gray-700 hover:bg-gray-700 transition-colors">
             <a href="#" className="p-4 flex items-center gap-4">
               <IoMdSettings fontSize={22} className="text-orange-500" />
               <span className="text-sm text-orange-500 font-bold">Setttings</span>
