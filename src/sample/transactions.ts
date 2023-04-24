@@ -27,6 +27,22 @@ export const transactions: Transaction[] = [
     createdAt: new Date(),
     scheduledAt: addDays(new Date(), -2),
   },
+  {
+    id: '31',
+    description: 'Pagamento da multa',
+    type: 'SAIDA',
+    valueInCents: 64332,
+    createdAt: new Date(),
+    scheduledAt: addDays(new Date(), -2),
+  },
+  {
+    id: '32',
+    description: 'Compra na Renner',
+    type: 'SAIDA',
+    valueInCents: 650,
+    createdAt: new Date(),
+    scheduledAt: addDays(new Date(), -2),
+  },
 
   // Scheduled Transactions
   {

@@ -12,14 +12,18 @@
     "serve": "serve -s dist -p 3000"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.1.0",
     "@radix-ui/react-avatar": "^1.0.2",
+    "@radix-ui/react-dialog": "^1.0.3",
     "@radix-ui/react-switch": "^1.0.2",
     "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
     "phosphor-react": "^1.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.8.0"
+    "react-hook-form": "^7.43.9",
+    "react-icons": "^4.8.0",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",
