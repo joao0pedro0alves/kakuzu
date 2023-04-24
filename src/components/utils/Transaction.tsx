@@ -1,15 +1,18 @@
 import clsx from 'clsx'
 import { BsFillArrowUpCircleFill, BsFillArrowDownCircleFill } from 'react-icons/bs'
 import { FiMoreVertical } from 'react-icons/fi'
+import * as Menu from '@radix-ui/react-dropdown-menu'
 
 import { currencyFormatter, dateFormatter } from '@/services/formatter'
 import { Transaction as TransactionDto } from '@/@types/dto'
 
 interface TransactionProps {
   data: TransactionDto
+  onRemove: () => void
+  onEdit: () => void
 }
 
-export function Transaction({ data }: TransactionProps) {
+export function Transaction({ data, onRemove, onEdit }: TransactionProps) {
   const isExpense = data.type === 'SAIDA'
 
   return (
@@ -17,8 +20,8 @@ export function Transaction({ data }: TransactionProps) {
       className={clsx(
         'grid grid-cols-12 gap-4 items-center p-4 rounded-md shadow-md',
         isExpense
-          ? 'dark:bg-red-800'
-          : 'dark:bg-green-800'
+          ? 'bg-red-100 dark:bg-red-800'
+          : 'bg-green-100 dark:bg-green-800'
       )}
     >
       <div className="col-span-1 flex items-center justify-center">
@@ -47,11 +50,36 @@ export function Transaction({ data }: TransactionProps) {
         </span>
       </div>
 
-      <div className="col-span-1 flex items-center justify-center">
-        <button>
-          <FiMoreVertical size={20} />
-        </button>
-      </div>
+      <Menu.Root>
+        <div className="col-span-1 flex items-center justify-center">
+          <Menu.Trigger asChild>
+            <button className='focus:outline-none'>
+              <FiMoreVertical size={20} />
+            </button>
+          </Menu.Trigger>
+
+          <Menu.Portal>
+            <Menu.Content 
+              sideOffset={5}
+              align="center"
+              className="min-w-[100px] bg-white dark:bg-gray-900 rounded-md p-2 shadow-lg duration-200 will-change-[transform_opacity]" 
+            >
+              <Menu.Item 
+                className='py-1 pl-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none text-sm font-semibold'
+                onClick={onEdit}
+              >
+                Edit
+              </Menu.Item>
+              <Menu.Item 
+                className='py-1 pl-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none text-sm font-semibold'
+                onClick={onRemove}
+              >
+                Remove
+              </Menu.Item>
+            </Menu.Content>
+          </Menu.Portal>
+        </div>
+      </Menu.Root>
     </li>
   )
 }

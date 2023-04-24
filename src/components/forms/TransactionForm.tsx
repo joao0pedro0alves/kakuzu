@@ -1,51 +1,91 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { AiOutlineClose } from 'react-icons/ai'
 
 import { SubmitHandler, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { format, subDays } from 'date-fns'
+import { format, subDays, addDays } from 'date-fns'
 
 import { Input } from '../utils/Input'
+import { Transaction } from '@/@types/dto'
 
 const transactionSchema = z.object({
   description: z.string().max(30, { message: "Description is required"}),
-  valueInCents: z.coerce.number(),
+  value: z.coerce.number(),
   scheduledAt: z.coerce.date().min(subDays(new Date(), 1)),
-  type: z.string(),
+  type: z.union([z.literal('ENTRADA'), z.literal('SAIDA')]),
 })
 
 type TransactionSchema = z.infer<typeof transactionSchema>
 
 interface TransactionFormProps {
-  onSave: () => void
+  onSave: (data: Transaction) => void
+  onNew: () => void
+  current: Transaction | null
 }
 
-export function TransactionForm({}: TransactionFormProps) {
+const initialValues: TransactionSchema = {
+  description: '',
+  scheduledAt: format(addDays(new Date(), 1), 'yyyy-MM-dd') as any,
+  type: 'SAIDA',
+  value: 0
+}
+
+export function TransactionForm({ onSave, onNew, current }: TransactionFormProps) {
   const [open, setOpen] = useState(false)
 
   const {
     register,
     handleSubmit,
+    reset,
+    setValue,
     formState: { errors }
   } = useForm<TransactionSchema>({
-    resolver: zodResolver(transactionSchema)
+    resolver: zodResolver(transactionSchema),
+    values: {...initialValues}
   })
+
+  useEffect(() => {
+
+    if (current) {
+      setOpen(true)
+      setValue('description', current.description)
+      setValue('value', current.valueInCents / 100)
+      setValue('scheduledAt', format(current.scheduledAt, 'yyyy-MM-dd') as any)
+      setValue('type', current.type)
+    } else {
+      reset()
+    }
+
+  }, [current])
 
   function onOpenChange() {
     setOpen(!open)
   }
 
-  const createTransaction: SubmitHandler<TransactionSchema> = (data) => {
-    alert(JSON.stringify(data))
+  const onSubmit: SubmitHandler<TransactionSchema> = (data) => {
+
+    const transaction: Transaction = {
+      id: current ? current.id : new Date().getTime().toString(),
+      createdAt: new Date(),
+      description: data.description,
+      scheduledAt: data.scheduledAt,
+      type: data.type,
+      valueInCents: data.value * 100,
+    }
+
+    onSave(transaction)
+
+    setOpen(false)
+    reset()
   }
 
   return (
     <div className="flex justify-end mb-4">
       <Dialog.Root open={open} onOpenChange={onOpenChange}>
         <Dialog.Trigger asChild>
-          <button className="py-2 px-4 bg-gray-800 rounded-md shadow-md text-white font-bold transition-all hover:bg-gray-700 dark:bg-orange-700 dark:hover:bg-orange-800">
+          <button onClick={onNew} className="py-2 px-4 bg-gray-800 rounded-md shadow-md text-white font-bold transition-all hover:bg-gray-700 dark:bg-orange-700 dark:hover:bg-orange-800">
             Nova transação
           </button>
         </Dialog.Trigger>
@@ -53,11 +93,11 @@ export function TransactionForm({}: TransactionFormProps) {
         <Dialog.Portal>
           <Dialog.Overlay className="bg-black/80 fixed inset-0 animate-[overlayShow_150ms_ease-in-out]" />
           <Dialog.Content className="bg-white dark:bg-gray-900 rounded shadow-sm fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-[450px] max-h-[85vh] p-6 animate-[contentShow_150ms_ease-in-out]">
-            <Dialog.Title className="mb-4 text-xl font-bold text-gray-900 dark:text-gray-100">
-              Nova transação
+            <Dialog.Title className="mb-4 text-xl font-bold text-gray-900 dark:text-gray-100 whitespace-nowrap max-w-[90%] overflow-hidden text-ellipsis">
+              {current?.description ? `Editar "${current?.description}"` : 'Nova transação'}
             </Dialog.Title>
 
-            <form onSubmit={handleSubmit(createTransaction)} className="flex flex-col gap-2">
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
               <Input
                 autoFocus
                 required
@@ -72,11 +112,11 @@ export function TransactionForm({}: TransactionFormProps) {
                 required
                 step={0.01}
                 type="number"
-                id="valueInCents"
+                id="value"
                 label="Valor"
                 placeholder="Qual o valor da transação?"
-                errorMessage={errors.valueInCents?.message}
-                {...register("valueInCents")}
+                errorMessage={errors.value?.message}
+                {...register("value")}
               />
               <Input
                 required

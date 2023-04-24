@@ -4,12 +4,14 @@ import { transactions } from '@/sample/transactions'
 
 // State
 interface TransactionsState {
-  data: Transaction[]
+  data: Transaction[];
+  current: Transaction | null;
 }
 
 // An enum with all the types of actions to use in our reducer
-enum TransactionsActionKind {
+export enum TransactionsActionKind {
   Load = 'Load',
+  Prepare = 'Prepare',
   Create = 'Create',
   Update = 'Update',
   Delete = 'Delete',
@@ -20,7 +22,7 @@ interface TransactionAction {
   type: TransactionsActionKind
   payload: {
     data?: Transaction[]
-    transaction?: Transaction
+    transaction?: Transaction | null
     id?: Transaction['id']
   }
 }
@@ -62,6 +64,11 @@ function transactionsReducer(state: TransactionsState, action: TransactionAction
         ...state,
         data: [...state.data].filter(({ id }) => id !== action.payload.id),
       }
+    case TransactionsActionKind.Prepare:
+      return {
+        ...state,
+        current: action.payload.transaction!
+      }
     default:
       return state
   }
@@ -69,6 +76,7 @@ function transactionsReducer(state: TransactionsState, action: TransactionAction
 
 const initialState: TransactionsState = {
   data: transactions,
+  current: null
 }
 
 const TransactionsContext = createContext<TransactionsContextProps>(
