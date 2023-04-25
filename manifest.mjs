@@ -1,13 +1,20 @@
 export default {
   name: 'Kakuzu Budget Manager',
   short_name: 'Kakuzu',
-  description: 'Your app description',
-  theme_color: '#ffffff',
+  description: '',
   icons: [
     {
-      src: 'images/favicon/pwa-192x192.png',
+      src: 'images/favicon/android-chrome-192x192.png',
       sizes: '192x192',
-      type: 'image/png'
+      type: 'image/png',
     },
-  ]
+    {
+      src: 'images/favicon/android-chrome-512x512.png',
+      sizes: '512x512',
+      type: 'image/png',
+    },
+  ],
+  theme_color: '#374151',
+  background_color: '#374151',
+  display: 'standalone',
 }
