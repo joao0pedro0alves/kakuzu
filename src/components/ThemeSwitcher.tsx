@@ -13,24 +13,22 @@ export function ThemeSwitcher() {
   }
 
   return (
-    <div>
-      <Switch.Root
-        id="airplane-mode"
-        className="w-16 h-8 bg-gray-200 rounded-full relative shadow-sm focus:shadow-md data-[state=checked]:bg-gray-700"
-        onClick={toogleTheme}
-        checked={isDark}
+    <Switch.Root
+      id="theme-switcher"
+      className="w-12 h-6 md:w-16 md:h-8 bg-gray-200 rounded-full relative shadow-sm focus:shadow-md data-[state=checked]:bg-gray-700"
+      onClick={toogleTheme}
+      checked={isDark}
+    >
+      <Switch.Thumb
+        className="w-6 h-6 md:w-8 md:h-8 bg-blue-500 rounded-full shadow-sm duration-200 transition-all translate-x-[2px] will-change-transform flex items-center justify-center
+                  data-[state=checked]:translate-x-6 md:data-[state=checked]:translate-x-8 data-[state=checked]:bg-gray-600"
       >
-        <Switch.Thumb
-          className="w-8 h-8 bg-blue-500 rounded-full shadow-sm duration-200 transition-all translate-x-[2px] will-change-transform flex items-center justify-center
-                     data-[state=checked]:translate-x-8 data-[state=checked]:bg-gray-600"
-        >
-          {isDark ? (
-            <HiMoon size={16} />
-          ) : (
-            <HiSun size={20} className="text-yellow-500" />
-          )}
-        </Switch.Thumb>
-      </Switch.Root>
-    </div>
+        {isDark ? (
+          <HiMoon size={16} />
+        ) : (
+          <HiSun size={20} className="text-yellow-500" />
+        )}
+      </Switch.Thumb>
+    </Switch.Root>
   )
 }

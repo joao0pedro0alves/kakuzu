@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Calculator } from '@/components/layout/Calculator'
 import { TransactionList } from '@/components/layout/TransactionList'
 import { TransactionForm } from '@/components/forms/TransactionForm'
@@ -5,8 +6,12 @@ import { TransactionsActionKind, useTransactionsContext } from '@/contexts/Trans
 import { Transaction } from '@/@types/dto'
 import { isFuture, isToday } from 'date-fns'
 
+type CalculatorListId = 'last' | 'scheduled'
+type CalculatorOption = Record<CalculatorListId, Transaction[]>
+
 export function Transactions() {
   const [{ data, current }, dispatch] = useTransactionsContext()
+  const [calculatorIncludedLists, setCalculatorIncludedLists] = useState<CalculatorListId[]>(['last'])
 
   const isScheduled = (date: Date) => !isToday(date) && isFuture(date)
 
@@ -21,6 +26,37 @@ export function Transactions() {
   const lastTransactions = sortedTransactions.filter(
     ({ scheduledAt }) => !isScheduled(scheduledAt)
   )
+
+  const calculatorList: CalculatorOption = {
+    last: lastTransactions,
+    scheduled: scheduledTransactions
+  }
+
+  function getActiveCalculatorList() {
+    return Object.entries(calculatorList)
+      .filter(([key]) => calculatorIncludedLists.includes(key as CalculatorListId))
+      .flatMap(([, transactions]) => transactions)
+  }
+
+  function handlePlus(calculatorListId: CalculatorListId) {
+    setCalculatorIncludedLists(
+      previousList => previousList.concat(calculatorListId)
+    )
+  }
+
+  function handleMinus(calculatorListId: CalculatorListId) {
+    setCalculatorIncludedLists(
+      previousList => previousList.filter(clid => clid !== calculatorListId)
+    )
+  }
+
+  function getListProps(calculatorListId: CalculatorListId) {
+    return {
+      includedOnCalculator: calculatorIncludedLists.includes(calculatorListId),
+      onClickPlus: () => handlePlus(calculatorListId),
+      onClickMinus: () => handleMinus(calculatorListId),
+    }
+  }
 
   function handleSave(data: Transaction) {
     if (current?.id) {
@@ -54,18 +90,20 @@ export function Transactions() {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex-1 flex gap-4">
+      <div className="flex-1 flex flex-col md:flex-row gap-4">
         <TransactionList 
           title="Últimas transações" 
           data={lastTransactions}
           onRemoveItem={handleRemove}
-          onChangeItem={handlePrepare} 
+          onChangeItem={handlePrepare}
+          {...getListProps('last')}
         />
         <TransactionList 
           title="Transações agendadas" 
           data={scheduledTransactions}
           onRemoveItem={handleRemove}
           onChangeItem={handlePrepare}
+          {...getListProps('scheduled')}
         />
       </div>
 
@@ -75,7 +113,7 @@ export function Transactions() {
         onNew={() => handlePrepare(null)}
       />
       <Calculator 
-        transactions={lastTransactions} 
+        transactions={getActiveCalculatorList()} 
       />
     </div>
   )

@@ -7,7 +7,7 @@ import { AiFillGithub, AiFillInstagram, AiFillLinkedin } from 'react-icons/ai'
 
 export function Sidebar() {
   return (
-    <aside className="flex flex-col flex-1 bg-gray-800 text-white rounded-lg overflow-hidden shadow-sm">
+    <aside className="hidden md:flex flex-col flex-1 bg-gray-800 text-white rounded-lg overflow-hidden shadow-sm">
       <section className="p-4 border-b border-gray-700 flex items-center gap-4">
         <Avatar />
 

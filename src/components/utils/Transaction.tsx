@@ -31,7 +31,7 @@ export function Transaction({ data, className, style, onRemove, onEdit }: Transa
           : 'bg-green-100 dark:bg-green-800'
       )}
     >
-      <div className="col-span-1 flex items-center justify-center">
+      <div className="col-span-2 md:col-span-1 flex items-center justify-center">
         <span
           className={clsx(
             'p-2 rounded-full text-white',
@@ -46,13 +46,13 @@ export function Transaction({ data, className, style, onRemove, onEdit }: Transa
         </span>
       </div>
 
-      <div className="col-span-7 flex flex-col">
+      <div className="col-span-6 md:col-span-7 flex flex-col">
         <span className="text-sm uppercase font-semibold">{data.description}</span>
         <span className="text-xs text-gray-500 dark:text-gray-300">{dateFormatter(data.scheduledAt)}</span>
       </div>
 
       <div className="col-span-3 flex justify-end">
-        <span className='font-black text-xl'>
+        <span className='font-black text-lg md:text-xl'>
           {visible ? currencyFormatter(data.valueInCents / 100) : '****'}
         </span>
       </div>

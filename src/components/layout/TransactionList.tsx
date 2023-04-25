@@ -1,34 +1,76 @@
+import clsx from 'clsx'
 import { Transaction } from '../utils/Transaction'
 import * as DTO from '@/@types/dto'
+import { MinusCircle, PlusCircle } from 'phosphor-react'
 
 interface TransactionListProps {
   title: string
   data: DTO.Transaction[]
   onRemoveItem: (id: DTO.Transaction['id']) => void
   onChangeItem: (transaction: DTO.Transaction) => void
+
+  includedOnCalculator?: boolean
+  onClickPlus?: () => void
+  onClickMinus?: () => void
 }
 
-export function TransactionList({ title, data, onRemoveItem, onChangeItem }: TransactionListProps) {
+export function TransactionList({
+  title,
+  data,
+  includedOnCalculator,
+  onClickMinus,
+  onClickPlus,
+  onRemoveItem,
+  onChangeItem,
+}: TransactionListProps) {
   return (
-    <section className="flex-1 max-h-[70vh] pr-2 overflow-auto scrollbar-thin scrollbar-rounded-md scrollbar-thumb-gray-200 dark:scrollbar-thumb-gray-700 scrollbar-track-transparent">
-      <h2 className="text-xl font-bold">{title}</h2>
+    <section className="md:flex-1 md:max-h-[70vh] pr-2 overflow-auto scrollbar-thin scrollbar-rounded-md scrollbar-thumb-gray-200 dark:scrollbar-thumb-gray-700 scrollbar-track-transparent">
+      <h2 className="text-xl font-bold flex items-center gap-4">
+        <span>{title}</span>
+        {includedOnCalculator !== undefined && (
+          <>
+            {includedOnCalculator ? (
+              <button
+                title="Remover do cálculo"
+                className="p-1 hover:bg-gray-200 transition-colors rounded-full"
+                onClick={onClickMinus}
+              >
+                <MinusCircle />
+              </button>
+            ) : (
+              <button
+                title="Incluir no cálculo"
+                className="p-1 hover:bg-gray-200 transition-colors rounded-full"
+                onClick={onClickPlus}
+              >
+                <PlusCircle />
+              </button>
+            )}
+          </>
+        )}
+      </h2>
 
       <div className="mt-4">
-        <ul className="flex flex-col gap-2">
-
-          {data.map((transaction, index) => 
+        <ul className={
+          clsx(
+            "flex flex-col gap-2",
+            {
+              'hidden md:flex': includedOnCalculator === false
+            }
+          )
+        }>
+          {data.map((transaction, index) => (
             <Transaction
               data={transaction}
               key={'transaction-' + transaction.id}
               onRemove={() => onRemoveItem(transaction.id)}
               onEdit={() => onChangeItem(transaction)}
-              className={`animate-[listItemShow_300ms_ease-in-out_forwards]`}
+              className={`md:animate-[listItemShow_300ms_ease-in-out_forwards]`}
               style={{
-                animationDelay: `${index}00ms`
+                animationDelay: `${index}00ms`,
               }}
             />
-          )}
-
+          ))}
         </ul>
       </div>
     </section>

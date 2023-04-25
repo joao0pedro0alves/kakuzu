@@ -22,16 +22,16 @@ export function Calculator({ transactions }: CalculatorProps) {
     <footer className="rounded-md bg-gray-100 dark:bg-gray-700 p-4 grid grid-cols-3">
       <div className="flex flex-col">
         <span>Entradas</span>
-        <span className="font-black text-3xl">{visible ? currencyFormatter(receives) : '****'}</span>
+        <span className="font-black md:text-3xl">{visible ? currencyFormatter(receives) : '****'}</span>
       </div>
       <div className="flex flex-col">
         <span>Saídas</span>
-        <span className="font-black text-3xl">{visible ? currencyFormatter(-expenses) : '****'}</span>
+        <span className="font-black md:text-3xl text-red-500">{visible ? currencyFormatter(-expenses) : '****'}</span>
       </div>
       <div className="flex flex-col">
-        <span>Orçamento</span>
+        <span>Saldo</span>
         <span
-          className={clsx('font-black text-3xl', {
+          className={clsx('font-black md:text-3xl', {
             ['text-red-500']: balance < 0,
             ['text-green-500']: balance > 0,
           })}
