@@ -3,7 +3,7 @@ import { Avatar } from '../utils/Avatar'
 import { GoDashboard } from 'react-icons/go'
 import { BiTransfer } from 'react-icons/bi'
 import { IoMdSettings } from 'react-icons/io'
-import { AiFillGithub, AiFillInstagram, AiFillLinkedin } from 'react-icons/ai'
+import { AiFillGithub, AiFillLinkedin } from 'react-icons/ai'
 
 export function Sidebar() {
   return (
@@ -56,17 +56,17 @@ export function Sidebar() {
             <AiFillGithub size={16} />
           </a>
 
-          <a 
+          {/* <a 
             className='block p-2 border border-gray-700 rounded-md hover:bg-gray-700 transition-colors'
             href="https://github.com/joao0pedro0alves" 
             target="_blank"
           >
             <AiFillInstagram size={16} />
-          </a>
+          </a> */}
 
           <a 
             className='block p-2 border border-gray-700 rounded-md hover:bg-gray-700 transition-colors'
-            href="https://github.com/joao0pedro0alves" 
+            href="https://www.linkedin.com/in/jo%C3%A3o-pedro-alves-pereira-bb0052216/" 
             target="_blank"
           >
             <AiFillLinkedin size={16} />
