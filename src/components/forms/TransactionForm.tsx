@@ -82,7 +82,7 @@ export function TransactionForm({ onSave, onNew, current }: TransactionFormProps
   }
 
   return (
-    <div className="flex justify-end my-4">
+    <div className="flex justify-end mb-3 max-md:mt-3">
       <Dialog.Root open={open} onOpenChange={onOpenChange}>
         <Dialog.Trigger asChild>
           <button onClick={onNew} className="py-2 px-4 bg-gray-800 rounded-md shadow-md text-white font-bold transition-all hover:bg-gray-700 dark:bg-orange-700 dark:hover:bg-orange-800">
