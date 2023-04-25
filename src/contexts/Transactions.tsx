@@ -1,6 +1,7 @@
-import { useReducer, useContext, createContext, ReactElement, Reducer } from 'react'
+import { useReducer, useEffect, useContext, createContext, ReactElement, Reducer } from 'react'
 import { Transaction } from '@/@types/dto'
-import { transactions } from '@/sample/transactions'
+import * as storage from '@/constants/storage'
+import { toDate } from 'date-fns'
 
 // State
 interface TransactionsState {
@@ -35,6 +36,11 @@ interface TransactionsContextProps {
 
 interface TransactionsProviderProps {
   children: ReactElement
+}
+
+const initialState: TransactionsState = {
+  data: [],
+  current: null
 }
 
 // Our reducer function that uses a switch statement to handle our actions
@@ -74,9 +80,23 @@ function transactionsReducer(state: TransactionsState, action: TransactionAction
   }
 }
 
-const initialState: TransactionsState = {
-  data: transactions,
-  current: null
+// Our reducer initializer function
+function transactionsInitializer(): TransactionsState {
+  try {
+    const storagedTransactions: Transaction[] =
+      JSON.parse(localStorage.getItem(storage.TRANSACTIONS) as string) ?? []
+
+    return {
+      current: null,
+      data: storagedTransactions.map((item) => ({
+        ...item,
+        scheduledAt: toDate(new Date(item.scheduledAt)),
+      })),
+    }
+  } catch (error) {
+    console.log(error)
+    return initialState
+  }
 }
 
 const TransactionsContext = createContext<TransactionsContextProps>(
@@ -92,7 +112,18 @@ export function useTransactionsContext(): [
 }
 
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
-  const [state, dispatch] = useReducer<Reducer<TransactionsState, TransactionAction>>(transactionsReducer, initialState)
+  const [state, dispatch] = useReducer<
+    Reducer<TransactionsState, TransactionAction>,
+    TransactionsState
+  >(transactionsReducer, initialState, transactionsInitializer)
+
+  useEffect(() => {
+    function store() {
+      localStorage.setItem(storage.TRANSACTIONS, JSON.stringify(state.data))
+    }
+
+    store()
+  }, [state.data])
 
   return (
     <TransactionsContext.Provider

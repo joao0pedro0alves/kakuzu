@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { usePersistedState } from './usePersistedState'
+import { THEME } from '@/constants/storage'
 
 type Theme = 'light' | 'dark'
 
@@ -10,7 +11,7 @@ function findSystemTheme(): Theme {
 }
 
 export function useTheme(): [theme: Theme, setTheme: React.Dispatch<React.SetStateAction<Theme>>] {
-  const [theme, setTheme] = usePersistedState<Theme>('theme', findSystemTheme())
+  const [theme, setTheme] = usePersistedState<Theme>(THEME, findSystemTheme())
 
   useEffect(() => {
     function chooseTheme() {

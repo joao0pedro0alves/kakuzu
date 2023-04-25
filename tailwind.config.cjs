@@ -19,6 +19,16 @@ module.exports = {
             opacity: '1'
           }
         },
+        listItemShow: {
+          'from': {
+            opacity: '0',
+            transform: 'translateY(10px)',
+          },
+          'to': {
+            opacity: '1',
+            transform: 'translateY(0)',
+          }
+        },
         contentShow: {
           '0%': {
             opacity: '0',
@@ -34,5 +44,6 @@ module.exports = {
   },
   plugins: [
     require('tailwind-scrollbar'),
+    require("tailwindcss-animation-delay"),
   ],
 }

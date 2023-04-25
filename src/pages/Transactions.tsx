@@ -3,11 +3,12 @@ import { TransactionList } from '@/components/layout/TransactionList'
 import { TransactionForm } from '@/components/forms/TransactionForm'
 import { TransactionsActionKind, useTransactionsContext } from '@/contexts/Transactions'
 import { Transaction } from '@/@types/dto'
+import { isFuture, isToday } from 'date-fns'
 
 export function Transactions() {
   const [{ data, current }, dispatch] = useTransactionsContext()
 
-  const isScheduled = (date: Date) => date >= new Date()
+  const isScheduled = (date: Date) => !isToday(date) && isFuture(date)
 
   const sortedTransactions = data.sort((a, b) => 
     a.scheduledAt.getTime() - b.scheduledAt.getTime()

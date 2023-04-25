@@ -27,7 +27,7 @@ interface TransactionFormProps {
 
 const initialValues: TransactionSchema = {
   description: '',
-  scheduledAt: format(addDays(new Date(), 1), 'yyyy-MM-dd') as any,
+  scheduledAt: format(new Date(), 'yyyy-MM-dd') as any,
   type: 'SAIDA',
   value: 0
 }
@@ -52,7 +52,7 @@ export function TransactionForm({ onSave, onNew, current }: TransactionFormProps
       setOpen(true)
       setValue('description', current.description)
       setValue('value', current.valueInCents / 100)
-      setValue('scheduledAt', format(current.scheduledAt, 'yyyy-MM-dd') as any)
+      setValue('scheduledAt', format(new Date(current.scheduledAt), 'yyyy-MM-dd') as any)
       setValue('type', current.type)
     } else {
       reset()
@@ -70,7 +70,7 @@ export function TransactionForm({ onSave, onNew, current }: TransactionFormProps
       id: current ? current.id : new Date().getTime().toString(),
       createdAt: new Date(),
       description: data.description,
-      scheduledAt: data.scheduledAt,
+      scheduledAt: addDays(data.scheduledAt, 1),
       type: data.type,
       valueInCents: data.value * 100,
     }

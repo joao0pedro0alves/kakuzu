@@ -16,12 +16,16 @@ export function TransactionList({ title, data, onRemoveItem, onChangeItem }: Tra
       <div className="mt-4">
         <ul className="flex flex-col gap-2">
 
-          {data.map((transaction) => 
+          {data.map((transaction, index) => 
             <Transaction
               data={transaction}
               key={'transaction-' + transaction.id}
               onRemove={() => onRemoveItem(transaction.id)}
               onEdit={() => onChangeItem(transaction)}
+              className={`animate-[listItemShow_300ms_ease-in-out_forwards]`}
+              style={{
+                animationDelay: `${index}00ms`
+              }}
             />
           )}
 

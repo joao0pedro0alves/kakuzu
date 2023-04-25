@@ -1,12 +1,15 @@
 import clsx from 'clsx'
 import { Transaction } from '@/@types/dto'
 import { currencyFormatter } from '@/services/formatter'
+import { useVisibleContext } from '@/contexts/Visible'
 
 interface CalculatorProps {
   transactions: Transaction[]
 }
 
 export function Calculator({ transactions }: CalculatorProps) {
+  const [visible] = useVisibleContext()
+
   function sumTransactionValues(transactions: Transaction[]) {
     return transactions.reduce((acc, transaction) => acc + transaction.valueInCents / 100, 0)
   }
@@ -19,11 +22,11 @@ export function Calculator({ transactions }: CalculatorProps) {
     <footer className="rounded-md bg-gray-100 dark:bg-gray-700 p-4 grid grid-cols-3">
       <div className="flex flex-col">
         <span>Entradas</span>
-        <span className="font-black text-3xl">{currencyFormatter.format(receives)}</span>
+        <span className="font-black text-3xl">{visible ? currencyFormatter(receives) : '****'}</span>
       </div>
       <div className="flex flex-col">
         <span>Saídas</span>
-        <span className="font-black text-3xl">{currencyFormatter.format(-expenses)}</span>
+        <span className="font-black text-3xl">{visible ? currencyFormatter(-expenses) : '****'}</span>
       </div>
       <div className="flex flex-col">
         <span>Orçamento</span>
@@ -33,7 +36,7 @@ export function Calculator({ transactions }: CalculatorProps) {
             ['text-green-500']: balance > 0,
           })}
         >
-          {currencyFormatter.format(balance)}
+          {visible ? currencyFormatter(balance): '****'}
         </span>
       </div>
     </footer>
