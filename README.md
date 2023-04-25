@@ -1,7 +1,7 @@
-# Vite PWA Template
+# Kakuzu
 
 <p>
-    PWA template using Vite, React and Typescript. It has a pre-assembled Docker configuration, with support for implementing an HTTPS server with a digital certificate using NGINX.
+    App using Vite, React and Typescript. It has a pre-assembled Docker configuration, with support for implementing an HTTPS server with a digital certificate using NGINX.
 </p>
 
 
@@ -9,11 +9,11 @@
 
 1. Clone this repository.
 ```bash
-$ git clone https://github.com/joao0pedro0alves/template-vite-pwa.git
+$ git clone https://github.com/joao0pedro0alves/kakuzu.git
 ```
 2. Go to project folder.
 ```bash
-$ cd template-vite-pwa
+$ cd kakuzu
 ```
 4. Install app dependencies
 ```bash

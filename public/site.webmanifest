@@ -1,6 +1,6 @@
 {
-    "name": "Template Vite PWA",
-    "short_name": "Template Vite PWA",
+    "name": "Kakuzu Budget Manager",
+    "short_name": "Kakuzu",
     "icons": [
         {
             "src": "images/favicon/pwa-192x192.png",

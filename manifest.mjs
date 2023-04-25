@@ -1,6 +1,6 @@
 export default {
-  name: 'Template Vite PWA',
-  short_name: 'Template Vite PWA',
+  name: 'Kakuzu Budget Manager',
+  short_name: 'Kakuzu',
   description: 'Your app description',
   theme_color: '#ffffff',
   icons: [
