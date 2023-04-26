@@ -6,6 +6,7 @@ import { Transaction } from '@/@types/dto'
 import { usePersistedState } from '@/hooks/usePersistedState'
 import { isFuture, isToday } from 'date-fns'
 import { CALCULATOR_INCLUDED_LISTS } from '@/constants/storage'
+import { confirm } from '@/services/confirm'
 
 type CalculatorListId = 'last' | 'scheduled'
 type CalculatorOption = Record<CalculatorListId, Transaction[]>
@@ -69,8 +70,8 @@ export function Transactions() {
     }
   }
 
-  function handleRemove(id: Transaction['id']) {
-    if (confirm("Remover transação ?")) {
+  async function handleRemove(id: Transaction['id']) {
+    if (await confirm("Remover transação ?")) {
       dispatch({
         type: TransactionsActionKind.Delete,
         payload: { id }

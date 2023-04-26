@@ -12,7 +12,7 @@ export default function App() {
       <main className='w-screen h-screen flex flex-col items-center overflow-x-hidden'>
         <Toolbar />
 
-        <div className="container relative flex-1 md:max-h-[90%] flex gap-4 mt-4">
+        <div className="container relative flex-1 md:max-h-[90%] flex gap-4">
           <Sidebar />
 
           <section 
