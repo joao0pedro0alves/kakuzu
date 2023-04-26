@@ -10,6 +10,7 @@ export const transactions: Transaction[] = [
     valueInCents: 74000,
     createdAt: new Date(),
     scheduledAt: new Date(),
+    active: true,
   },
   {
     id: '3',
@@ -18,6 +19,7 @@ export const transactions: Transaction[] = [
     valueInCents: 15032,
     createdAt: new Date(),
     scheduledAt: addDays(new Date(), -2),
+    active: true,
   },
   // Scheduled Transactions
   {
@@ -27,5 +29,6 @@ export const transactions: Transaction[] = [
     valueInCents: 120099,
     createdAt: new Date(),
     scheduledAt: addDays(new Date(), 10),
+    active: false,
   },
 ]
