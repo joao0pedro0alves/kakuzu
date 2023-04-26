@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { isSameDay } from 'date-fns'
-import { Transaction } from '../utils/Transaction'
 import * as DTO from '@/@types/dto'
+import { Transaction } from '../utils/Transaction'
 import { MinusCircle, PlusCircle } from 'phosphor-react'
 
 interface TransactionListProps {
@@ -62,24 +62,18 @@ export function TransactionList({
       </h2>
 
       <div className="mt-4">
-        <ul className={
-          clsx(
-            "flex flex-col gap-2",
-            {
-              'hidden md:flex': includedOnCalculator === false
-            }
-          )
-        }>
+        <ul
+          className={clsx('flex flex-col gap-2', {
+            'hidden md:flex': includedOnCalculator === false,
+          })}
+        >
           {sortTransactions(data).map((transaction, index) => (
             <Transaction
               data={transaction}
               key={'transaction-' + transaction.id}
               onRemove={() => onRemoveItem(transaction.id)}
               onEdit={() => onChangeItem(transaction)}
-              className={`md:animate-[listItemShow_300ms_ease-in-out_forwards]`}
-              style={{
-                animationDelay: `${index}00ms`,
-              }}
+              transitionDelay={(index + 1) * 0.075}
             />
           ))}
         </ul>
