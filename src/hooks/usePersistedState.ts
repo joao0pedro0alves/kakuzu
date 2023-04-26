@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getItem, setItem } from '@/services/storage'
+import { getItem, setItem } from '@/utils/storage'
 
 export function usePersistedState<T>(key: string, initialState: T): [T,  React.Dispatch<React.SetStateAction<T>>] {
   const [state, setState] = useState<T>(() => getItem(key, initialState))

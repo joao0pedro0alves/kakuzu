@@ -15,6 +15,8 @@ const transactionSchema = z.object({
   value: z.coerce.number(),
   scheduledAt: z.coerce.date().min(subDays(new Date(), 1)),
   type: z.union([z.literal('ENTRADA'), z.literal('SAIDA')]),
+  active: z.boolean(),
+  observation: z.string().optional()
 })
 
 type TransactionSchema = z.infer<typeof transactionSchema>
@@ -29,7 +31,8 @@ const initialValues: TransactionSchema = {
   description: '',
   scheduledAt: format(new Date(), 'yyyy-MM-dd') as any,
   type: 'SAIDA',
-  value: 0
+  value: 0,
+  active: true,
 }
 
 export function TransactionForm({ onSave, onNew, current }: TransactionFormProps) {
@@ -54,6 +57,8 @@ export function TransactionForm({ onSave, onNew, current }: TransactionFormProps
       setValue('value', current.valueInCents / 100)
       setValue('scheduledAt', format(new Date(current.scheduledAt), 'yyyy-MM-dd') as any)
       setValue('type', current.type)
+      setValue('active', current.active)
+      setValue('observation', current.observation)
     } else {
       reset()
     }
@@ -73,6 +78,8 @@ export function TransactionForm({ onSave, onNew, current }: TransactionFormProps
       scheduledAt: addDays(data.scheduledAt, 1),
       type: data.type,
       valueInCents: data.value * 100,
+      active: current?.active ?? true,
+      observation: data.observation
     }
 
     onSave(transaction)
@@ -98,6 +105,19 @@ export function TransactionForm({ onSave, onNew, current }: TransactionFormProps
             </Dialog.Title>
 
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+              <fieldset>
+                <span className='text-gray-700 text-xs font-semibold dark:text-gray-500'>Tipo</span>
+                <div className='flex gap-4'>
+                  <div className='flex items-center gap-2'>
+                    <input {...register('type')} id="type_enter" type="radio" value="SAIDA" />
+                    <label htmlFor="type_enter">Saída</label>
+                  </div>
+                  <div className='flex items-center gap-2'>
+                    <input {...register('type')} id="type_receive" type="radio" value="ENTRADA" />
+                    <label htmlFor="type_receive">Entrada</label>
+                  </div>
+                </div>
+              </fieldset>
               <Input
                 autoFocus
                 required
@@ -128,24 +148,18 @@ export function TransactionForm({ onSave, onNew, current }: TransactionFormProps
                 errorMessage={errors.scheduledAt?.message}
                 {...register("scheduledAt")}
               />
-
-              <fieldset className='pl-2'>
-                <span className='text-gray-700 text-xs font-semibold dark:text-gray-500'>Tipo</span>
-                <div className='flex gap-4'>
-                  <div className='flex items-center gap-2'>
-                    <input {...register('type')} id="type_receive" type="radio" value="ENTRADA" />
-                    <label htmlFor="type_receive">Entrada</label>
-                  </div>
-                  <div className='flex items-center gap-2'>
-                    <input {...register('type')} id="type_enter" type="radio" value="SAIDA" />
-                    <label htmlFor="type_enter">Saída</label>
-                  </div>
-                </div>
-              </fieldset>
-
+              <Input
+                type="text"
+                id="observation"
+                label="Alguma observação?"
+                placeholder="Descreva a transação..."
+                errorMessage={errors.observation?.message}
+                multiline
+                {...register("observation")}
+              />
               <button
                 type="submit"
-                className="font-bold self-end px-4 py-2 rounded-md text-sm transition-all text-green-700 bg-green-100 hover:bg-green-200 dark:bg-green-700 dark:text-white dark:hover:bg-green-800"
+                className="font-bold self-end mt-2 px-4 py-2 rounded-md text-sm transition-all text-green-700 bg-green-100 hover:bg-green-200 dark:bg-green-700 dark:text-white dark:hover:bg-green-800"
               >
                 Salvar alterações
               </button>

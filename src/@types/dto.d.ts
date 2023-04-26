@@ -4,5 +4,7 @@ export interface Transaction {
   valueInCents: number;
   createdAt: Date;
   scheduledAt: Date;
+  observation?: string;
+  active: boolean;
   type: 'ENTRADA' | 'SAIDA';
 }

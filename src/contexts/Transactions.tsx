@@ -16,6 +16,7 @@ export enum TransactionsActionKind {
   Create = 'Create',
   Update = 'Update',
   Delete = 'Delete',
+  ToogleActive = 'ToogleActive',
 }
 
 // An interface for our actions
@@ -74,6 +75,17 @@ function transactionsReducer(state: TransactionsState, action: TransactionAction
       return {
         ...state,
         current: action.payload.transaction!
+      }
+    case TransactionsActionKind.ToogleActive:
+      return {
+        ...state,
+        data: [...state.data].map((transaction) => {
+          let payloadTransaction = action.payload.transaction!
+
+          return payloadTransaction.id === transaction.id
+            ? { ...payloadTransaction, active: !payloadTransaction.active }
+            : transaction
+        }),
       }
     default:
       return state

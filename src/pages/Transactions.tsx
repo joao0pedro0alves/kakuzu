@@ -1,29 +1,28 @@
-import { useState } from 'react'
 import { Calculator } from '@/components/layout/Calculator'
 import { TransactionList } from '@/components/layout/TransactionList'
 import { TransactionForm } from '@/components/forms/TransactionForm'
 import { TransactionsActionKind, useTransactionsContext } from '@/contexts/Transactions'
 import { Transaction } from '@/@types/dto'
+import { usePersistedState } from '@/hooks/usePersistedState'
 import { isFuture, isToday } from 'date-fns'
+import { CALCULATOR_INCLUDED_LISTS } from '@/constants/storage'
+import { confirm } from '@/services/confirm'
+import { copy } from '@/utils/copy'
 
 type CalculatorListId = 'last' | 'scheduled'
 type CalculatorOption = Record<CalculatorListId, Transaction[]>
 
 export function Transactions() {
   const [{ data, current }, dispatch] = useTransactionsContext()
-  const [calculatorIncludedLists, setCalculatorIncludedLists] = useState<CalculatorListId[]>(['last'])
+  const [calculatorIncludedLists, setCalculatorIncludedLists] = usePersistedState<CalculatorListId[]>(CALCULATOR_INCLUDED_LISTS, ['last'])
 
   const isScheduled = (date: Date) => !isToday(date) && isFuture(date)
 
-  const sortedTransactions = data.sort((a, b) => 
-    a.scheduledAt.getTime() - b.scheduledAt.getTime()
-  )
-
-  const scheduledTransactions = sortedTransactions.filter(
+  const scheduledTransactions = data.filter(
     ({ scheduledAt }) => isScheduled(scheduledAt)
   )
 
-  const lastTransactions = sortedTransactions.filter(
+  const lastTransactions = data.filter(
     ({ scheduledAt }) => !isScheduled(scheduledAt)
   )
 
@@ -72,8 +71,8 @@ export function Transactions() {
     }
   }
 
-  function handleRemove(id: Transaction['id']) {
-    if (confirm("Remover transação ?")) {
+  async function handleRemove(id: Transaction['id']) {
+    if (await confirm("Deseja remover a transação?" + "<br/>" + "Essa ação não poderá ser revertida")) {
       dispatch({
         type: TransactionsActionKind.Delete,
         payload: { id }
@@ -84,6 +83,13 @@ export function Transactions() {
   function handlePrepare(transaction: Transaction | null) {
     dispatch({
       type: TransactionsActionKind.Prepare,
+      payload: { transaction: copy(transaction) }
+    })
+  }
+  
+  function handleToogleActive(transaction: Transaction) {
+    dispatch({
+      type: TransactionsActionKind.ToogleActive,
       payload: { transaction }
     })
   }
@@ -96,6 +102,7 @@ export function Transactions() {
           data={lastTransactions}
           onRemoveItem={handleRemove}
           onChangeItem={handlePrepare}
+          onToogleActiveItem={handleToogleActive}
           {...getListProps('last')}
         />
         <TransactionList 
@@ -103,6 +110,7 @@ export function Transactions() {
           data={scheduledTransactions}
           onRemoveItem={handleRemove}
           onChangeItem={handlePrepare}
+          onToogleActiveItem={handleToogleActive}
           {...getListProps('scheduled')}
         />
       </div>

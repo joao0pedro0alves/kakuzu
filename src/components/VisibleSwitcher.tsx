@@ -6,7 +6,6 @@ export function VisibleSwitcher() {
 
   return (
     <button 
-      className="bg-gray-300 dark:bg-gray-800 shadow-md rounded-full w-8 h-8 flex items-center justify-center transition-all hover:shadow-lg"
       onClick={() => setVisible(previousVisible => !previousVisible)}
     >
       {visible ? (
