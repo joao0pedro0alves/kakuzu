@@ -1,29 +1,26 @@
-import { useState } from 'react'
 import { Calculator } from '@/components/layout/Calculator'
 import { TransactionList } from '@/components/layout/TransactionList'
 import { TransactionForm } from '@/components/forms/TransactionForm'
 import { TransactionsActionKind, useTransactionsContext } from '@/contexts/Transactions'
 import { Transaction } from '@/@types/dto'
+import { usePersistedState } from '@/hooks/usePersistedState'
 import { isFuture, isToday } from 'date-fns'
+import { CALCULATOR_INCLUDED_LISTS } from '@/constants/storage'
 
 type CalculatorListId = 'last' | 'scheduled'
 type CalculatorOption = Record<CalculatorListId, Transaction[]>
 
 export function Transactions() {
   const [{ data, current }, dispatch] = useTransactionsContext()
-  const [calculatorIncludedLists, setCalculatorIncludedLists] = useState<CalculatorListId[]>(['last'])
+  const [calculatorIncludedLists, setCalculatorIncludedLists] = usePersistedState<CalculatorListId[]>(CALCULATOR_INCLUDED_LISTS, ['last'])
 
   const isScheduled = (date: Date) => !isToday(date) && isFuture(date)
 
-  const sortedTransactions = data.sort((a, b) => 
-    a.scheduledAt.getTime() - b.scheduledAt.getTime()
-  )
-
-  const scheduledTransactions = sortedTransactions.filter(
+  const scheduledTransactions = data.filter(
     ({ scheduledAt }) => isScheduled(scheduledAt)
   )
 
-  const lastTransactions = sortedTransactions.filter(
+  const lastTransactions = data.filter(
     ({ scheduledAt }) => !isScheduled(scheduledAt)
   )
 

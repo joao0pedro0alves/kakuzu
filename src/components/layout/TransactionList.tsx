@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { isSameDay } from 'date-fns'
 import { Transaction } from '../utils/Transaction'
 import * as DTO from '@/@types/dto'
 import { MinusCircle, PlusCircle } from 'phosphor-react'
@@ -13,6 +14,16 @@ interface TransactionListProps {
   onClickPlus?: () => void
   onClickMinus?: () => void
 }
+
+function sortTransactions(transactions: DTO.Transaction[]) {
+  const comp = (a: any, b: any) => (a < b ? -1 : a > b ? 1 : 0)
+
+  return transactions.sort((a, b) => {
+    if (isSameDay(a.scheduledAt, b.scheduledAt)) return comp(a.type, b.type)
+    return comp(a.scheduledAt.getTime(), b.scheduledAt.getTime())
+  })
+}
+
 
 export function TransactionList({
   title,
@@ -32,7 +43,7 @@ export function TransactionList({
             {includedOnCalculator ? (
               <button
                 title="Remover do cálculo"
-                className="p-1 hover:bg-gray-200 transition-colors rounded-full"
+                className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors rounded-full"
                 onClick={onClickMinus}
               >
                 <MinusCircle />
@@ -40,7 +51,7 @@ export function TransactionList({
             ) : (
               <button
                 title="Incluir no cálculo"
-                className="p-1 hover:bg-gray-200 transition-colors rounded-full"
+                className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors rounded-full"
                 onClick={onClickPlus}
               >
                 <PlusCircle />
@@ -59,7 +70,7 @@ export function TransactionList({
             }
           )
         }>
-          {data.map((transaction, index) => (
+          {sortTransactions(data).map((transaction, index) => (
             <Transaction
               data={transaction}
               key={'transaction-' + transaction.id}
