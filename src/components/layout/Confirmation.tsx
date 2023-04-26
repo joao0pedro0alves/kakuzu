@@ -38,9 +38,8 @@ export function Confirmation({
           <div 
             id="confirmation-dialog-description"
             className='my-4 text-gray-500 dark:text-gray-300'
-          >
-            {description}
-          </div>
+            dangerouslySetInnerHTML={{ __html: description }}
+          />
 
           <div className="flex justify-end gap-4">
             <button
