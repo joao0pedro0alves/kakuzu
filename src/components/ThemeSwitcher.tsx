@@ -1,6 +1,5 @@
 import * as Switch from '@radix-ui/react-switch'
 import { useTheme } from '@/hooks/useTheme'
-
 import { HiSun, HiMoon } from 'react-icons/hi'
 
 export function ThemeSwitcher() {
@@ -15,7 +14,7 @@ export function ThemeSwitcher() {
   return (
     <Switch.Root
       id="theme-switcher"
-      className="w-12 h-6 md:w-16 md:h-8 bg-gray-200 rounded-full relative shadow-sm focus:shadow-md data-[state=checked]:bg-gray-700"
+      className="w-12 h-6 md:w-16 md:h-8 bg-gray-200 rounded-full relative shadow-sm data-[state=checked]:bg-gray-700"
       onClick={toogleTheme}
       checked={isDark}
     >

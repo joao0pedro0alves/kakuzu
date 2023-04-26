@@ -3,7 +3,7 @@ import { BsFillArrowUpCircleFill, BsFillArrowDownCircleFill } from 'react-icons/
 import { FiMoreVertical } from 'react-icons/fi'
 import * as Menu from '@radix-ui/react-dropdown-menu'
 
-import { currencyFormatter, dateFormatter } from '@/services/formatter'
+import { currencyFormatter, dateFormatter } from '@/utils/formatter'
 import { Transaction as TransactionDto } from '@/@types/dto'
 import { useVisibleContext } from '@/contexts/Visible'
 import { CSSProperties } from 'react'
@@ -75,13 +75,13 @@ export function Transaction({ data, className, style, onRemove, onEdit }: Transa
                 className='py-1 pl-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none text-sm font-semibold'
                 onClick={onEdit}
               >
-                Edit
+                Editar
               </Menu.Item>
               <Menu.Item 
                 className='py-1 pl-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none text-sm font-semibold'
                 onClick={onRemove}
               >
-                Remove
+                Remover
               </Menu.Item>
             </Menu.Content>
           </Menu.Portal>

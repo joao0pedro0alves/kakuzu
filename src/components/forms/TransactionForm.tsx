@@ -98,6 +98,19 @@ export function TransactionForm({ onSave, onNew, current }: TransactionFormProps
             </Dialog.Title>
 
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+              <fieldset>
+                <span className='text-gray-700 text-xs font-semibold dark:text-gray-500'>Tipo</span>
+                <div className='flex gap-4'>
+                  <div className='flex items-center gap-2'>
+                    <input {...register('type')} id="type_enter" type="radio" value="SAIDA" />
+                    <label htmlFor="type_enter">Saída</label>
+                  </div>
+                  <div className='flex items-center gap-2'>
+                    <input {...register('type')} id="type_receive" type="radio" value="ENTRADA" />
+                    <label htmlFor="type_receive">Entrada</label>
+                  </div>
+                </div>
+              </fieldset>
               <Input
                 autoFocus
                 required
@@ -128,21 +141,6 @@ export function TransactionForm({ onSave, onNew, current }: TransactionFormProps
                 errorMessage={errors.scheduledAt?.message}
                 {...register("scheduledAt")}
               />
-
-              <fieldset className='pl-2'>
-                <span className='text-gray-700 text-xs font-semibold dark:text-gray-500'>Tipo</span>
-                <div className='flex gap-4'>
-                  <div className='flex items-center gap-2'>
-                    <input {...register('type')} id="type_receive" type="radio" value="ENTRADA" />
-                    <label htmlFor="type_receive">Entrada</label>
-                  </div>
-                  <div className='flex items-center gap-2'>
-                    <input {...register('type')} id="type_enter" type="radio" value="SAIDA" />
-                    <label htmlFor="type_enter">Saída</label>
-                  </div>
-                </div>
-              </fieldset>
-
               <button
                 type="submit"
                 className="font-bold self-end px-4 py-2 rounded-md text-sm transition-all text-green-700 bg-green-100 hover:bg-green-200 dark:bg-green-700 dark:text-white dark:hover:bg-green-800"
