@@ -7,6 +7,7 @@ import { usePersistedState } from '@/hooks/usePersistedState'
 import { isFuture, isToday } from 'date-fns'
 import { CALCULATOR_INCLUDED_LISTS } from '@/constants/storage'
 import { confirm } from '@/services/confirm'
+import { copy } from '@/utils/copy'
 
 type CalculatorListId = 'last' | 'scheduled'
 type CalculatorOption = Record<CalculatorListId, Transaction[]>
@@ -71,7 +72,7 @@ export function Transactions() {
   }
 
   async function handleRemove(id: Transaction['id']) {
-    if (await confirm("Remover transação ?")) {
+    if (await confirm("Deseja remover a transação?" + "<br/>" + "Essa ação não poderá ser revertida")) {
       dispatch({
         type: TransactionsActionKind.Delete,
         payload: { id }
@@ -82,6 +83,13 @@ export function Transactions() {
   function handlePrepare(transaction: Transaction | null) {
     dispatch({
       type: TransactionsActionKind.Prepare,
+      payload: { transaction: copy(transaction) }
+    })
+  }
+  
+  function handleToogleActive(transaction: Transaction) {
+    dispatch({
+      type: TransactionsActionKind.ToogleActive,
       payload: { transaction }
     })
   }
@@ -94,6 +102,7 @@ export function Transactions() {
           data={lastTransactions}
           onRemoveItem={handleRemove}
           onChangeItem={handlePrepare}
+          onToogleActiveItem={handleToogleActive}
           {...getListProps('last')}
         />
         <TransactionList 
@@ -101,6 +110,7 @@ export function Transactions() {
           data={scheduledTransactions}
           onRemoveItem={handleRemove}
           onChangeItem={handlePrepare}
+          onToogleActiveItem={handleToogleActive}
           {...getListProps('scheduled')}
         />
       </div>

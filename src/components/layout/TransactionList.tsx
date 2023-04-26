@@ -9,6 +9,7 @@ interface TransactionListProps {
   data: DTO.Transaction[]
   onRemoveItem: (id: DTO.Transaction['id']) => void
   onChangeItem: (transaction: DTO.Transaction) => void
+  onToogleActiveItem: (transaction: DTO.Transaction) => void
 
   includedOnCalculator?: boolean
   onClickPlus?: () => void
@@ -33,6 +34,7 @@ export function TransactionList({
   onClickPlus,
   onRemoveItem,
   onChangeItem,
+  onToogleActiveItem,
 }: TransactionListProps) {
   return (
     <section className="md:flex-1 md:max-h-[70vh] pr-2 overflow-auto scrollbar-thin scrollbar-rounded-md scrollbar-thumb-gray-200 dark:scrollbar-thumb-gray-700 scrollbar-track-transparent">
@@ -74,6 +76,7 @@ export function TransactionList({
               onRemove={() => onRemoveItem(transaction.id)}
               onEdit={() => onChangeItem(transaction)}
               transitionDelay={(index + 1) * 0.075}
+              onToggleActive={() => onToogleActiveItem(transaction)}
             />
           ))}
         </ul>

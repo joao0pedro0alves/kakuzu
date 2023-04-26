@@ -14,7 +14,7 @@ export function Calculator({ transactions }: CalculatorProps) {
     transactions.reduce((acc, { valueInCents }) => acc + valueInCents / 100, 0)
 
   const typeIs = (type: Transaction['type']) => (transaction: Transaction) =>
-    transaction.type === type
+    transaction.type === type && transaction.active
   
   const receives = sum(transactions.filter(typeIs('ENTRADA')))
   const expenses = sum(transactions.filter(typeIs('SAIDA')))

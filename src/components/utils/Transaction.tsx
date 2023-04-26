@@ -1,5 +1,8 @@
 import clsx from 'clsx'
-import { BsFillArrowUpCircleFill, BsFillArrowDownCircleFill } from 'react-icons/bs'
+import {
+  BsFillArrowUpCircleFill,
+  BsFillArrowDownCircleFill,
+} from 'react-icons/bs'
 import { FiMoreVertical } from 'react-icons/fi'
 import { motion } from 'framer-motion'
 import * as Menu from '@radix-ui/react-dropdown-menu'
@@ -11,16 +14,25 @@ import { useVisibleContext } from '@/contexts/Visible'
 interface TransactionProps {
   data: TransactionDto
   transitionDelay?: number
+  onToggleActive: () => void
   onRemove: () => void
   onEdit: () => void
 }
 
-export function Transaction({ data, transitionDelay = 0.1, onRemove, onEdit }: TransactionProps) {
+export function Transaction({
+  data,
+  transitionDelay = 0.1,
+  onToggleActive,
+  onRemove,
+  onEdit,
+}: TransactionProps) {
   const [visible] = useVisibleContext()
   const isExpense = data.type === 'SAIDA'
 
   return (
     <motion.li
+      data-disabled={!data.active}
+      role="button"
       transition={{ delay: transitionDelay }}
       initial={{
         transform: 'translateX(-2rem)',
@@ -31,19 +43,24 @@ export function Transaction({ data, transitionDelay = 0.1, onRemove, onEdit }: T
         opacity: 1,
       }}
       className={clsx(
-        'grid grid-cols-12 gap-4 items-center p-4 rounded-md shadow-md',
+        'grid grid-cols-12 gap-4 items-center p-4 rounded-md shadow-md cursor-pointer',
+        'data-[disabled=true]:shadow-none data-[disabled=true]:bg-gray-200',
         isExpense
           ? 'bg-red-100 dark:bg-gray-700'
           : 'bg-green-100 dark:bg-gray-700'
       )}
     >
       <div className="col-span-2 md:col-span-1 flex items-center justify-center">
-        <span
+        <button
+          title="Clique para habilitar/desabilitar a transação"
+          onClick={onToggleActive}
           className={clsx(
             'p-2 rounded-full text-white',
-            isExpense
-              ? 'bg-red-500 dark:bg-red-500'
-              : 'bg-green-500 dark:bg-green-500'
+            data.active
+              ? isExpense
+                ? 'bg-red-500 dark:bg-red-500'
+                : 'bg-green-500 dark:bg-green-500'
+              : 'bg-gray-400 dark:bg-gray-500'
           )}
         >
           {isExpense ? (
@@ -51,7 +68,7 @@ export function Transaction({ data, transitionDelay = 0.1, onRemove, onEdit }: T
           ) : (
             <BsFillArrowUpCircleFill size={20} />
           )}
-        </span>
+        </button>
       </div>
 
       <div className="col-span-6 md:col-span-7 flex flex-col">
