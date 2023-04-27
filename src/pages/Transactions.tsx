@@ -114,7 +114,6 @@ export function Transactions() {
           {...getListProps('scheduled')}
         />
       </div>
-
       <TransactionForm 
         current={current} 
         onSave={handleSave}

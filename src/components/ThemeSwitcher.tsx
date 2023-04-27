@@ -17,8 +17,11 @@ export function ThemeSwitcher() {
       className="w-12 h-6 bg-gray-200 rounded-full relative shadow-sm data-[state=checked]:bg-gray-700"
       onClick={toogleTheme}
       checked={isDark}
+       aria-label='Switch theme dark/light'
     >
       <Switch.Thumb
+        aria-labelledby='Switch theme dark/light'
+        aria-checked={isDark ? "true" : "false"}
         className="w-6 h-6 bg-blue-500 rounded-full shadow-sm duration-200 transition-all translate-x-[2px] will-change-transform flex items-center justify-center
                   data-[state=checked]:translate-x-6 data-[state=checked]:bg-gray-600"
       >

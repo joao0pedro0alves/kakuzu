@@ -5,8 +5,9 @@ export function VisibleSwitcher() {
   const [visible, setVisible] = useVisibleContext()
 
   return (
-    <button 
+    <button
       onClick={() => setVisible(previousVisible => !previousVisible)}
+      aria-label='Change visible'
     >
       {visible ? (
         <Eye size={20} className="text-gray-500 dark:text-gray-300" />

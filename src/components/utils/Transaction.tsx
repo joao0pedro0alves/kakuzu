@@ -30,7 +30,7 @@ export function Transaction({
   const isExpense = data.type === 'SAIDA'
 
   return (
-    <motion.li
+    <motion.div
       data-disabled={!data.active}
       role="button"
       transition={{ delay: transitionDelay }}
@@ -43,7 +43,7 @@ export function Transaction({
         opacity: 1,
       }}
       className={clsx(
-        'grid grid-cols-12 gap-4 items-center p-4 rounded-md shadow-md cursor-pointer',
+        'grid grid-cols-12 gap-4 items-center p-4 rounded-md shadow-md cursor-pointer transition-all',
         'data-[disabled=true]:shadow-none data-[disabled=true]:bg-gray-200',
         isExpense
           ? 'bg-red-100 dark:bg-gray-700'
@@ -52,6 +52,7 @@ export function Transaction({
     >
       <div className="col-span-2 md:col-span-1 flex items-center justify-center">
         <button
+          aria-label='Disable/Enable transaction'
           title="Clique para habilitar/desabilitar a transação"
           onClick={onToggleActive}
           className={clsx(
@@ -75,7 +76,7 @@ export function Transaction({
         <span className="text-xs md:text-sm uppercase font-semibold">
           {data.description}
         </span>
-        <span className="text-xs text-gray-500 dark:text-gray-300">
+        <span className="text-xs text-gray-700 dark:text-gray-300">
           {dateFormatter(data.scheduledAt)}
         </span>
       </div>
@@ -89,7 +90,7 @@ export function Transaction({
       <Menu.Root>
         <div className="col-span-1 flex items-center justify-center">
           <Menu.Trigger asChild>
-            <button className="focus:outline-none">
+            <button aria-label='Open transaction menu' className="focus:outline-none">
               <FiMoreVertical size={20} />
             </button>
           </Menu.Trigger>
@@ -116,6 +117,6 @@ export function Transaction({
           </Menu.Portal>
         </div>
       </Menu.Root>
-    </motion.li>
+    </motion.div>
   )
 }
