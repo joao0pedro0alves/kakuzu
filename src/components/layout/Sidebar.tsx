@@ -1,9 +1,11 @@
-import { Avatar } from '../utils/Avatar'
+import { Link } from 'react-router-dom'
 
 import { GoDashboard } from 'react-icons/go'
 import { BiTransfer } from 'react-icons/bi'
 import { IoMdSettings } from 'react-icons/io'
 import { AiFillGithub, AiFillLinkedin } from 'react-icons/ai'
+
+import { Avatar } from '../utils/Avatar'
 
 export function Sidebar() {
   return (
@@ -22,24 +24,24 @@ export function Sidebar() {
           <li
             className="w-full rounded data-[active=true]:bg-gray-900 hover:bg-gray-900 transition-colors"
           >
-            <a href="#" className="p-4 flex items-center gap-4">
+            <Link to="home" className="p-4 flex items-center gap-4">
               <GoDashboard fontSize={22} className="text-orange-500" />
               <span className="text-sm text-orange-500 font-bold">Dashboard</span>
-            </a>
+            </Link>
           </li>
 
           <li className="w-full rounded data-[active=true]:bg-gray-900 hover:bg-gray-900 transition-colors" data-active="true">
-            <a href="#" className="p-4 flex items-center gap-4">
+            <Link to='transactions' className="p-4 flex items-center gap-4">
               <BiTransfer fontSize={22} className="text-orange-500" />
               <span className="text-sm text-orange-500 font-bold">Transactions</span>
-            </a>
+            </Link>
           </li>
 
           <li className="w-full rounded data-[active=true]:bg-gray-900 hover:bg-gray-900 transition-colors">
-            <a href="#" className="p-4 flex items-center gap-4">
+            <Link to='settings' className="p-4 flex items-center gap-4">
               <IoMdSettings fontSize={22} className="text-orange-500" />
               <span className="text-sm text-orange-500 font-bold">Setttings</span>
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>

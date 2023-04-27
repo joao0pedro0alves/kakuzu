@@ -12,7 +12,7 @@ import { copy } from '@/utils/copy'
 type CalculatorListId = 'last' | 'scheduled'
 type CalculatorOption = Record<CalculatorListId, Transaction[]>
 
-export function Transactions() {
+export function TransactionsPage() {
   const [{ data, current }, dispatch] = useTransactionsContext()
   const [calculatorIncludedLists, setCalculatorIncludedLists] = usePersistedState<CalculatorListId[]>(CALCULATOR_INCLUDED_LISTS, ['last'])
 
