@@ -94,6 +94,10 @@ export function TransactionsPage() {
     })
   }
 
+  function handleReset() {
+    handlePrepare(null)
+  }
+
   return (
     <div className="flex h-full flex-col">
       <div className="flex-1 flex flex-col md:flex-row gap-4">
@@ -117,7 +121,7 @@ export function TransactionsPage() {
       <TransactionForm 
         current={current} 
         onSave={handleSave}
-        onNew={() => handlePrepare(null)}
+        onReset={handleReset}
       />
       <Calculator 
         transactions={getActiveCalculatorList()} 
