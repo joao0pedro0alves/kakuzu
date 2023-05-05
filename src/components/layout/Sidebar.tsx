@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import { GoDashboard } from 'react-icons/go'
 import { BiTransfer } from 'react-icons/bi'
@@ -6,6 +6,12 @@ import { IoMdSettings } from 'react-icons/io'
 import { AiFillGithub, AiFillLinkedin } from 'react-icons/ai'
 
 import { Avatar } from '../utils/Avatar'
+
+const NAVIGATION_LINKS = [
+  { label: 'Dashboard', to: 'home', Icon: GoDashboard },
+  { label: 'Transactions', to: 'transactions', Icon: BiTransfer },
+  { label: 'Settings', to: 'settings', Icon: IoMdSettings },
+]
 
 export function Sidebar() {
   return (
@@ -21,28 +27,17 @@ export function Sidebar() {
 
       <nav className="flex-1">
         <ul className="flex flex-col gap-2 px-4 my-4">
-          <li
-            className="w-full rounded data-[active=true]:bg-gray-900 hover:bg-gray-900 transition-colors"
-          >
-            <Link to="home" className="p-4 flex items-center gap-4">
-              <GoDashboard fontSize={22} className="text-orange-500" />
-              <span className="text-sm text-orange-500 font-bold">Dashboard</span>
-            </Link>
-          </li>
-
-          <li className="w-full rounded data-[active=true]:bg-gray-900 hover:bg-gray-900 transition-colors" data-active="true">
-            <Link to='transactions' className="p-4 flex items-center gap-4">
-              <BiTransfer fontSize={22} className="text-orange-500" />
-              <span className="text-sm text-orange-500 font-bold">Transactions</span>
-            </Link>
-          </li>
-
-          <li className="w-full rounded data-[active=true]:bg-gray-900 hover:bg-gray-900 transition-colors">
-            <Link to='settings' className="p-4 flex items-center gap-4">
-              <IoMdSettings fontSize={22} className="text-orange-500" />
-              <span className="text-sm text-orange-500 font-bold">Setttings</span>
-            </Link>
-          </li>
+          {NAVIGATION_LINKS.map(({ label, to, Icon }) => (
+            <li
+              className="w-full rounded nav-link hover:bg-gray-900 transition-colors"
+              key={`navigation-link-${to}`}
+            >
+              <NavLink to={to} className="p-4 flex items-center gap-4">
+                <Icon fontSize={22} className="text-orange-500" />
+                <span className="text-sm text-orange-500 font-bold">{label}</span>
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </nav>
 

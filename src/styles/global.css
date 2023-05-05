@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.nav-link:has(a.active) {
+  @apply bg-gray-900; 
+}
