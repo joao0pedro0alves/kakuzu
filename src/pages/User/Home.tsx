@@ -25,7 +25,8 @@ export function HomePage() {
   }, [data])
 
   function getDateWithMoreExpenses() {
-    return getExpenses().sort((a, b) => b.valueInCents - a.valueInCents)[0].scheduledAt
+    const sortedExpenses = getExpenses().sort((a, b) => b.valueInCents - a.valueInCents)
+    return sortedExpenses[0]?.scheduledAt || new Date()
   }
 
   return (
