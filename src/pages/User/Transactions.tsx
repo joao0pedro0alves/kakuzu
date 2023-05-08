@@ -4,19 +4,17 @@ import { TransactionForm } from '@/components/forms/TransactionForm'
 import { TransactionsActionKind, useTransactionsContext } from '@/contexts/Transactions'
 import { Transaction } from '@/@types/dto'
 import { usePersistedState } from '@/hooks/usePersistedState'
-import { isFuture, isToday } from 'date-fns'
 import { CALCULATOR_INCLUDED_LISTS } from '@/constants/storage'
 import { confirm } from '@/services/confirm'
+import { isScheduled } from '@/utils/date-fns'
 import { copy } from '@/utils/copy'
 
 type CalculatorListId = 'last' | 'scheduled'
 type CalculatorOption = Record<CalculatorListId, Transaction[]>
 
-export function Transactions() {
-  const [{ data, current }, dispatch] = useTransactionsContext()
+export function TransactionsPage() {
+  const { state: { data, current }, dispatch } = useTransactionsContext()
   const [calculatorIncludedLists, setCalculatorIncludedLists] = usePersistedState<CalculatorListId[]>(CALCULATOR_INCLUDED_LISTS, ['last'])
-
-  const isScheduled = (date: Date) => !isToday(date) && isFuture(date)
 
   const scheduledTransactions = data.filter(
     ({ scheduledAt }) => isScheduled(scheduledAt)
@@ -94,6 +92,10 @@ export function Transactions() {
     })
   }
 
+  function handleReset() {
+    handlePrepare(null)
+  }
+
   return (
     <div className="flex h-full flex-col">
       <div className="flex-1 flex flex-col md:flex-row gap-4">
@@ -114,11 +116,10 @@ export function Transactions() {
           {...getListProps('scheduled')}
         />
       </div>
-
       <TransactionForm 
         current={current} 
         onSave={handleSave}
-        onNew={() => handlePrepare(null)}
+        onReset={handleReset}
       />
       <Calculator 
         transactions={getActiveCalculatorList()} 

@@ -64,7 +64,7 @@ export function TransactionList({
       </h2>
 
       <div className="mt-4">
-        <ul
+        <div
           className={clsx('flex flex-col gap-2', {
             'hidden md:flex': includedOnCalculator === false,
           })}
@@ -79,7 +79,7 @@ export function TransactionList({
               onToggleActive={() => onToogleActiveItem(transaction)}
             />
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   )

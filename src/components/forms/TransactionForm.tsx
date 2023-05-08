@@ -23,7 +23,7 @@ type TransactionSchema = z.infer<typeof transactionSchema>
 
 interface TransactionFormProps {
   onSave: (data: Transaction) => void
-  onNew: () => void
+  onReset: () => void
   current: Transaction | null
 }
 
@@ -35,7 +35,7 @@ const initialValues: TransactionSchema = {
   active: true,
 }
 
-export function TransactionForm({ onSave, onNew, current }: TransactionFormProps) {
+export function TransactionForm({ onSave, onReset, current }: TransactionFormProps) {
   const [open, setOpen] = useState(false)
 
   const {
@@ -66,7 +66,11 @@ export function TransactionForm({ onSave, onNew, current }: TransactionFormProps
   }, [current])
 
   function onOpenChange() {
-    setOpen(!open)
+    setOpen(previousOpen => !previousOpen)
+
+    if (open && current) {
+      onReset()
+    }
   }
 
   const onSubmit: SubmitHandler<TransactionSchema> = (data) => {
@@ -92,7 +96,7 @@ export function TransactionForm({ onSave, onNew, current }: TransactionFormProps
     <div className="flex justify-end mb-3 max-md:mt-3">
       <Dialog.Root open={open} onOpenChange={onOpenChange}>
         <Dialog.Trigger asChild>
-          <button onClick={onNew} className="py-2 px-4 bg-gray-800 rounded-md shadow-md text-white font-bold transition-all hover:bg-gray-700 dark:bg-orange-700 dark:hover:bg-orange-800">
+          <button onClick={onReset} className="py-2 px-4 bg-gray-800 rounded-md shadow-md text-white font-bold transition-all hover:bg-gray-700 dark:bg-orange-700 dark:hover:bg-orange-800">
             Nova transação
           </button>
         </Dialog.Trigger>
