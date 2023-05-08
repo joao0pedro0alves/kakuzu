@@ -1,18 +1,21 @@
 import { useMemo } from 'react'
-import { useTransactionsContext } from '@/contexts/Transactions'
 import { sortByScheduleAt, createLabels, createChartDataSets } from '@/utils/charts'
 
 import Chart from 'chart.js/auto'
 import { CategoryScale } from 'chart.js'
 import { Line as LineChart } from 'react-chartjs-2'
+import { Transaction } from '@/@types/dto'
 
 Chart.register(CategoryScale)
 
-export function FollowUpTransactions() {
-  const [{ data }] = useTransactionsContext()
+interface FollowUpTransactionsProps {
+  data: Transaction[]
+}
 
+export function FollowUpTransactions({ data }: FollowUpTransactionsProps) {
+  
   const chartData = useMemo(() => {
-    
+  
     const sortedData = sortByScheduleAt(data)
     const labels = createLabels(sortedData)
     const [receives, expenses, balance] = createChartDataSets(sortedData)

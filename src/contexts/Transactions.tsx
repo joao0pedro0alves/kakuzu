@@ -33,6 +33,8 @@ interface TransactionAction {
 interface TransactionsContextProps {
   state: TransactionsState
   dispatch: React.Dispatch<TransactionAction>
+  getExpenses: (transactions?: Transaction[]) => Transaction[]
+  getReceives: (transactions?: Transaction[]) => Transaction[]
 }
 
 interface TransactionsProviderProps {
@@ -115,12 +117,8 @@ const TransactionsContext = createContext<TransactionsContextProps>(
   {} as TransactionsContextProps
 )
 
-export function useTransactionsContext(): [
-  TransactionsContextProps['state'],
-  TransactionsContextProps['dispatch']
-] {
-  const { state, dispatch } = useContext(TransactionsContext)
-  return [state, dispatch]
+export function useTransactionsContext() {
+  return useContext(TransactionsContext)
 }
 
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
@@ -137,11 +135,21 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     store()
   }, [state.data])
 
+  function getExpenses(transactions = state.data) {
+    return transactions.filter(item => item.type === 'SAIDA')
+  }
+
+  function getReceives(transactions = state.data) {
+    return transactions.filter(item => item.type === 'ENTRADA')
+  }
+
   return (
     <TransactionsContext.Provider
       value={{
         state,
         dispatch,
+        getExpenses,
+        getReceives
       }}
     >
       {children}
