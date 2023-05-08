@@ -9,7 +9,7 @@ import * as Menu from '@radix-ui/react-dropdown-menu'
 
 import { currencyFormatter, dateFormatter } from '@/utils/formatter'
 import { Transaction as TransactionDto } from '@/@types/dto'
-import { useVisibleContext } from '@/contexts/Visible'
+import { VisibleText } from '@/components/utils/VisibleText'
 
 interface TransactionProps {
   data: TransactionDto
@@ -26,7 +26,6 @@ export function Transaction({
   onRemove,
   onEdit,
 }: TransactionProps) {
-  const [visible] = useVisibleContext()
   const isExpense = data.type === 'SAIDA'
 
   return (
@@ -83,7 +82,7 @@ export function Transaction({
 
       <div className="col-span-3 flex justify-end">
         <span className="font-black text-md md:text-xl">
-          {visible ? currencyFormatter(data.valueInCents / 100) : '****'}
+          <VisibleText value={currencyFormatter(data.valueInCents / 100)} />
         </span>
       </div>
 
