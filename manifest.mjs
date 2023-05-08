@@ -14,7 +14,7 @@ export default {
       type: 'image/png',
     },
   ],
-  theme_color: '#374151',
-  background_color: '#374151',
+  theme_color: '#1f2937',
+  background_color: '#1f2937',
   display: 'standalone',
 }
